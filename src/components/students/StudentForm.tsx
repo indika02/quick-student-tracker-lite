@@ -76,7 +76,16 @@ const StudentForm = ({ student, onSubmit }: StudentFormProps) => {
   const handleFormSubmit = (values: StudentFormValues) => {
     setFormError(null);
     try {
-      onSubmit(values);
+      // Since values are validated by Zod, we can safely cast them as non-optional
+      const studentData: Omit<Student, "id"> = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        grade: values.grade,
+        age: values.age,
+        enrollmentDate: values.enrollmentDate
+      };
+      onSubmit(studentData);
     } catch (error) {
       setFormError("An error occurred while saving the student data.");
       toast({
