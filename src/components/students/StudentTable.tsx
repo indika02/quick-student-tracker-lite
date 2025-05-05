@@ -24,11 +24,12 @@ import { Link } from "react-router-dom";
 interface StudentTableProps {
   students: Student[];
   onDelete: (id: string) => void;
+  isLoading?: boolean;
 }
 
 type SortField = keyof Pick<Student, 'firstName' | 'lastName' | 'email' | 'grade' | 'age'>;
 
-const StudentTable = ({ students, onDelete }: StudentTableProps) => {
+const StudentTable = ({ students, onDelete, isLoading = false }: StudentTableProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortField, setSortField] = useState<SortField>("lastName");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
@@ -95,7 +96,17 @@ const StudentTable = ({ students, onDelete }: StudentTableProps) => {
         </Button>
       </div>
 
-      <div className="border rounded-md overflow-hidden">
+      <div className="border rounded-md overflow-hidden relative">
+        {isLoading && (
+          <div className="absolute inset-0 bg-background/70 flex items-center justify-center z-10">
+            <div className="bg-card p-4 rounded-md shadow-lg">
+              <p className="flex items-center">
+                <RefreshCw className="animate-spin mr-2 h-4 w-4" />
+                Refreshing data...
+              </p>
+            </div>
+          </div>
+        )}
         <Table>
           <TableHeader>
             <TableRow>
