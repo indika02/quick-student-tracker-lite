@@ -1,18 +1,30 @@
 
 import { cn } from "@/lib/utils";
 import { NavLink } from "react-router-dom";
-import { Home, User, UserPlus } from "lucide-react";
+import { Home, User, UserPlus, Settings } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface SidebarProps {
   isOpen: boolean;
 }
 
 const Sidebar = ({ isOpen }: SidebarProps) => {
+  const { currentUser } = useAuth();
+  const isAdmin = currentUser?.role === 'admin';
+
   const menuItems = [
     { label: "Dashboard", path: "/dashboard", icon: <Home className="h-5 w-5" /> },
     { label: "Students", path: "/students", icon: <User className="h-5 w-5" /> },
     { label: "Add Student", path: "/students/new", icon: <UserPlus className="h-5 w-5" /> },
   ];
+
+  // Admin-only menu items
+  const adminMenuItems = [
+    { label: "Facilities", path: "/facilities", icon: <Settings className="h-5 w-5" /> },
+  ];
+
+  // Combine menu items based on user role
+  const allMenuItems = isAdmin ? [...menuItems, ...adminMenuItems] : menuItems;
 
   return (
     <aside
@@ -28,7 +40,7 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
 
       <nav className="mt-5">
         <ul>
-          {menuItems.map((item) => (
+          {allMenuItems.map((item) => (
             <li key={item.path}>
               <NavLink
                 to={item.path}

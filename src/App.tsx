@@ -9,6 +9,8 @@ import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import Students from "./pages/Students";
 import StudentForm from "./pages/StudentForm";
+import Facilities from "./pages/Facilities";
+import FacilityForm from "./pages/FacilityForm";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +28,9 @@ const App = () => (
             <Route path="/students" element={<Students />} />
             <Route path="/students/new" element={<StudentForm />} />
             <Route path="/students/edit/:id" element={<StudentForm />} />
+            <Route path="/facilities" element={<Facilities />} />
+            <Route path="/facilities/new" element={<FacilityForm />} />
+            <Route path="/facilities/edit/:id" element={<FacilityForm />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

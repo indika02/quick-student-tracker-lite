@@ -1,4 +1,3 @@
-
 export interface Student {
   id: string;
   firstName: string;
@@ -80,5 +79,49 @@ export const mockUsers: User[] = [
     password: "password",
     fullName: "Teacher User",
     role: "teacher"
+  }
+];
+
+export interface Facility {
+  id: string;
+  name: string;
+  type: 'classroom' | 'laboratory' | 'library' | 'gymnasium' | 'cafeteria' | 'office' | 'other';
+  location: string;
+  capacity: number;
+  isAvailable: boolean;
+  description: string;
+  createdAt: string;
+}
+
+export const mockFacilities: Facility[] = [
+  {
+    id: "1",
+    name: "Main Auditorium",
+    type: "classroom",
+    location: "Building A, Floor 1",
+    capacity: 200,
+    isAvailable: true,
+    description: "Large auditorium for conferences and large classes",
+    createdAt: "2024-01-15"
+  },
+  {
+    id: "2",
+    name: "Chemistry Lab",
+    type: "laboratory",
+    location: "Science Building, Floor 2",
+    capacity: 30,
+    isAvailable: true,
+    description: "Fully equipped chemistry laboratory",
+    createdAt: "2024-02-10"
+  },
+  {
+    id: "3",
+    name: "Main Library",
+    type: "library",
+    location: "Central Building, Floor 1",
+    capacity: 100,
+    isAvailable: true,
+    description: "Main student library with extensive collection",
+    createdAt: "2024-01-05"
   }
 ];
