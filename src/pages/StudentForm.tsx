@@ -13,11 +13,22 @@ const StudentFormPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  // Get current students state from localStorage if available
+  const getCurrentStudents = (): Student[] => {
+    try {
+      const storedStudents = localStorage.getItem('currentStudents');
+      return storedStudents ? JSON.parse(storedStudents) : mockStudents;
+    } catch (e) {
+      return mockStudents;
+    }
+  };
+
   useEffect(() => {
     if (id) {
       // Simulate API call delay
       const timer = setTimeout(() => {
-        const foundStudent = mockStudents.find((s) => s.id === id);
+        const currentStudents = getCurrentStudents();
+        const foundStudent = currentStudents.find((s) => s.id === id);
         setStudent(foundStudent);
         setIsLoading(false);
         
@@ -38,14 +49,33 @@ const StudentFormPage = () => {
   const handleSubmit = (formData: Omit<Student, "id">) => {
     // Simulate API call delay
     setTimeout(() => {
+      const currentStudents = getCurrentStudents();
+      
       if (id) {
-        // Update existing student (would be an API call in a real app)
+        // Update existing student
+        const updatedStudents = currentStudents.map(s => 
+          s.id === id ? { ...formData, id } : s
+        );
+        
+        // Save updated students list to localStorage
+        localStorage.setItem('currentStudents', JSON.stringify(updatedStudents));
+        
         toast({
           title: "Student updated",
           description: `${formData.firstName} ${formData.lastName}'s information has been updated.`,
         });
       } else {
-        // Create new student (would be an API call in a real app)
+        // Create new student with unique ID
+        const newStudent = {
+          ...formData,
+          id: `${Date.now()}` // Simple unique ID
+        };
+        
+        const updatedStudents = [...currentStudents, newStudent];
+        
+        // Save updated students list to localStorage
+        localStorage.setItem('currentStudents', JSON.stringify(updatedStudents));
+        
         toast({
           title: "Student added",
           description: `${formData.firstName} ${formData.lastName} has been added successfully.`,

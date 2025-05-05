@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DashboardLayout from "@/components/Layout/Dashboard";
 import StudentTable from "@/components/students/StudentTable";
 import { Student, mockStudents } from "@/utils/mockData";
@@ -18,10 +18,25 @@ import {
 } from "@/components/ui/alert-dialog";
 
 const Students = () => {
-  const [students, setStudents] = useState<Student[]>(mockStudents);
+  // Get students from localStorage or use mockStudents as fallback
+  const getStoredStudents = (): Student[] => {
+    try {
+      const storedStudents = localStorage.getItem('currentStudents');
+      return storedStudents ? JSON.parse(storedStudents) : mockStudents;
+    } catch (e) {
+      return mockStudents;
+    }
+  };
+
+  const [students, setStudents] = useState<Student[]>(getStoredStudents());
   const [studentToDelete, setStudentToDelete] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const { toast } = useToast();
+
+  // Update localStorage whenever students state changes
+  useEffect(() => {
+    localStorage.setItem('currentStudents', JSON.stringify(students));
+  }, [students]);
 
   const handleDelete = (id: string) => {
     setStudentToDelete(id);
@@ -48,7 +63,8 @@ const Students = () => {
     
     // Simulate API call with timeout
     setTimeout(() => {
-      setStudents([...mockStudents]);
+      // Refresh data from localStorage
+      setStudents(getStoredStudents());
       setIsRefreshing(false);
       toast({
         title: "Data refreshed",
