@@ -119,9 +119,15 @@ const FacilityForm = () => {
         });
       } else {
         // Create new facility
+        // Ensure all required fields are present by directly using values from the form
         const newFacility: Facility = {
           id: Date.now().toString(), // Generate a simple ID
-          ...values,
+          name: values.name,
+          type: values.type,
+          location: values.location,
+          capacity: values.capacity,
+          isAvailable: values.isAvailable,
+          description: values.description,
           createdAt: new Date().toISOString().substring(0, 10),
         };
 
