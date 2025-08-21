@@ -44,7 +44,7 @@ jobs:
 
       - name: set up and Run Selenium test dependencies
         run: |
-          cd studentautomation
+          cd selenium-tests
           mvn clean  install  
 
       - name: Send Test Report to email
@@ -60,7 +60,7 @@ jobs:
           content_type: text/html
           body: |
             Selenium test report attached.
-            attachments: studentautomation/target/reports/cucumber-html-reports/test.html
+            attachments: selenium-tests/target/reports/cucumber-html-reports/test.html
 
   # Container:
   #     runs-on: ubuntu-latest
