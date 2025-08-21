@@ -33,7 +33,7 @@ jobs:
         - name: Checkout Selenium Tests
           uses: actions/checkout@v4
           with:
-            repository: https://github.com/indika02/studentautomation
+            repository: indika02/studentautomation
             path: selenium-tests
 
         - name: Set up java
