@@ -23,13 +23,57 @@ jobs:
       - name: build app
         run: npm run build  
 
-  Test:
+  # CodeQuality:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
+
+      # - name: SonarQube Scan
+      #   uses: SonarSource/sonarcloud-github-action@v1
+      #   with:
+      #     projectBaseDir: .
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  
+
+  Container:
     runs-on: ubuntu-latest
     needs: build
     steps:
       - name: Checkout repository
-        run: echo "This step runs after the build job"
+        uses: actions/checkout@v4
 
+      - name: Set up Docker Build
+        uses: docker/setup-buildx-action@v2
 
-    
-  
+      - name: Build the docker image 
+        run:  docker build -t indikas/smsv0.0.0:latest .
+          
+      - name: Verify the docker image
+        run: docker run -d -p 8080:8080 indikas/smsv0.0.0:latest
+
+  Test:
+      runs-on: ubuntu-latest
+      needs: Container
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+
+        - name: Checkout Selenium Tests
+          uses: actions/checkout@v4
+          with:
+            repository: https://github.com/indika02/studentautomation
+            path: selenium-tests
+
+        - name: Set up java
+          uses: actions/setup-java@v4
+          with:
+            java-version: '24'
+            distribution: 'temurin'
+
+        - name: set up and Run Selenium test dependencies
+          run: |
+            cd selenium-tests
+            mvn clean  install  
