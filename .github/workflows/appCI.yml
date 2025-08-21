@@ -21,26 +21,11 @@ jobs:
         run: npm install
 
       - name: build app
-        run: npm run build  
-
-  # CodeQuality:
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v4
-
-      # - name: SonarQube Scan
-      #   uses: SonarSource/sonarcloud-github-action@v1
-      #   with:
-      #     projectBaseDir: .
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  
+        run: npm run build   
 
   Test:
       runs-on: ubuntu-latest
-      needs: Build
+      needs: build
       steps:
         - name: Checkout repository
           uses: actions/checkout@v4
