@@ -45,12 +45,12 @@ jobs:
       - name: set up and Run Selenium test dependencies
         run: |
           cd selenium-tests
-          mvn clean  install -e 
+          mvn clean  install -X 
 
-      - name: Generate Cucumber HTML report
-        run: |
-          cd selenium-tests
-          mvn net.masterthought:maven-cucumber-reporting:generate    
+      # - name: Generate Cucumber HTML report
+      #   run: |
+      #     cd selenium-tests
+      #     mvn net.masterthought:maven-cucumber-reporting:generate    
 
       - name: Send Test Report to email
         uses: dawidd6/action-send-mail@v3
