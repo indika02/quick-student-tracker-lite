@@ -27,31 +27,26 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Checkout repository
+      - name: Checkout Main Repository
         uses: actions/checkout@v4
 
-      - name: Checkout Selenium Tests
+      - name: Checkout Selenium Tests Repository
         uses: actions/checkout@v4
         with:
           repository: indika02/studentautomation
           path: selenium-tests
 
-      - name: Set up java
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          java-version: '24'
+          java-version: '21'
           distribution: 'temurin'
+          cache: 'maven'
 
-      - name: set up and Run Selenium test dependencies
-        run: |
-          cd selenium-tests
-          mvn clean  install -X 
-
-      # - name: Generate Cucumber HTML report
-      #   run: |
-      #     cd selenium-tests
-      #     mvn net.masterthought:maven-cucumber-reporting:generate    
-
+      - name: Run Selenium Tests
+        working-directory: selenium-tests
+        run: mvn clean install
+    
       - name: Send Test Report to email
         uses: dawidd6/action-send-mail@v3
         with:
@@ -65,7 +60,7 @@ jobs:
           content_type: text/html
           body: |
             Selenium test report attached.
-            attachments: selenium-tests/target/cucumber-reports/cucumber-html-reports/test.html
+          attachments: selenium-tests/target/reports/cucumber-html-reports/test.html
 
   # Container:
   #     runs-on: ubuntu-latest
