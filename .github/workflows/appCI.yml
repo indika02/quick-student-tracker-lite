@@ -45,7 +45,7 @@ jobs:
       - name: set up and Run Selenium test dependencies
         run: |
           cd selenium-tests
-          mvn clean  install  
+          mvn clean  install -e 
 
       - name: Send Test Report to email
         uses: dawidd6/action-send-mail@v3
