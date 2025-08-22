@@ -98,8 +98,7 @@ jobs:
 
       - name: Upload Report into another folder
         run: |
-          mkdir finalreports
-          mv ${{ env.REPORT_PATH }}.zip finalreports/
+          mv ${{ env.REPORT_PATH }}.zip ./
             
       - name: Set report file name only
         run: |
