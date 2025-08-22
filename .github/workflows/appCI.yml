@@ -104,7 +104,7 @@ jobs:
         uses: agusprayogi02/auto-upload-gdrive@v1.0.1
         with:
           credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
-          filename: ${{ env.REPORT_PATH }}.tar.gz
+          filename: ${{ env.REPORT_PATH }}.zip
           folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
           encoded: false
           mimeType: application/zip
@@ -124,7 +124,6 @@ jobs:
             Allure test report for ${{ env.REPORT_PATH }} is attached.
               1. First, Make sure that already you have installed Allure Commandline on your local machine. If not You can download it from https://allurereport.org/docs/install-for-windows/
               2. Download the attached file of this location: https://drive.google.com/drive/folders/1sEE5WBZoegnbGhRd6UCNg3E7pt5wtWX2?usp=sharing
-              2. Before unzip the attached file, rename it to "allure-report.tar.gz" file.
               3. Then Unzip the attached file to a desired location.
               4. Type command "allure open /path/to/unzipped/folder" to open the report in your default web browser.
             Thank you.
