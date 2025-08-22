@@ -104,7 +104,7 @@ jobs:
         uses: agusprayogi02/auto-upload-gdrive@v1.0.1
         with:
           credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
-          filename: ${{ env.REPORT_PATH }}.tar.gz
+          filename: selenium-tests/${{ env.REPORT_PATH }}.tar.gz
           folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
           encoded: false
           mimeType: application/gzip
