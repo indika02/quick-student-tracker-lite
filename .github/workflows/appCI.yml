@@ -103,7 +103,7 @@ jobs:
         id: zip-check
         run: |
           if [ -f "${{ env.REPORT_PATH }}.zip" ]; then
-            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "exists=true"
           else
             echo "exists=false" >> $GITHUB_OUTPUT
           fi
@@ -114,7 +114,6 @@ jobs:
         with:
           credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
           filename: ${{ env.REPORT_PATH }}.zip
-          
           folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
           encoded: false
           mimeType: application/zip
