@@ -103,9 +103,13 @@ jobs:
           subject: Allure Test Report
           to: indikasenarathna356@gmail.com
           from: ${{ secrets.EMAIL }}
-          content_type: text/html
           body: |
-            Allure test report for ${{ env.REPORT_PATH }} is attached.
+            Hi,
+              Allure test report for ${{ env.REPORT_PATH }} is attached.
+                1. First, Make sure you have Allure commandline installed on your local machine. You can download it from https://docs.qameta.io/allure/#_installing_a_commandline
+                2. Unzip the attached file to a desired location.
+                3. Type command `allure open /path/to/unzipped/folder` to open the report in your default web browser.
+            Thank you.
           attachments: ${{ env.REPORT_PATH }}.zip
 
       - name: Zip Allure Report
