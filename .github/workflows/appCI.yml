@@ -98,7 +98,7 @@ jobs:
           tar -czf ${{ env.REPORT_PATH }}.tar.gz ${{ env.REPORT_PATH }}
 
       - name: Upload Allure Report to Google Drive
-        uses: Jodebu/gdrive-upload-action@v1
+        uses: willo32/google-drive-upload-action@v1
         with:
           service_account_credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
           filename: ${{ env.REPORT_PATH }}.tar.gz
