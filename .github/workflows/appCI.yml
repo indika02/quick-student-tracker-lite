@@ -96,7 +96,14 @@ jobs:
       - name: Zip Allure Report
         run: |
           tar -czf ${{ env.REPORT_PATH }}.tar.gz ${{ env.REPORT_PATH }}
-          mv ${{ env.REPORT_PATH }}.tar.gz ${{ env.REPORT_PATH }}.txt
+
+      - name: Upload Allure Report to Google Drive
+        uses: Jodebu/gdrive-upload-action@v1
+        with:
+          service_account_credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
+          filename: ${{ env.REPORT_PATH }}.tar.gz
+          folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
+    
 
       - name: Send Allure Report to Members
         uses: dawidd6/action-send-mail@v3
@@ -112,12 +119,12 @@ jobs:
             Hi,
             Allure test report for ${{ env.REPORT_PATH }} is attached.
               1. First, Make sure that already you have installed Allure Commandline on your local machine. If not You can download it from https://allurereport.org/docs/install-for-windows/
+              2. Download the attached file of this location: https://drive.google.com/drive/folders/1sEE5WBZoegnbGhRd6UCNg3E7pt5wtWX2?usp=sharing
               2. Before unzip the attached file, rename it to "allure-report.tar.gz" file.
               3. Then Unzip the attached file to a desired location.
               4. Type command "allure open /path/to/unzipped/folder" to open the report in your default web browser.
             Thank you.
-          attachments: ${{ env.REPORT_PATH }}.txt
-
+         
   # Container:
   #     runs-on: ubuntu-latest
   #     needs: Test
