@@ -42,28 +42,15 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-
-      - name: Build Selenium tests with Maven
-        run: |
-          cd selenium-tests
-          mvn clean install   
-
-      - name: Cache Maven packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-
-      - name: Build and Run Tests
-        run: mvn clean test
-
       - name: Install Allure Commandline
         run: |
           sudo apt-add-repository ppa:qameta/allure
           sudo apt-get update
           sudo apt-get install allure -y
+      - name: Build Selenium tests with Maven
+        run: |
+          cd selenium-tests
+          mvn clean install   
 
       - name: Generate Allure Report
         run: allure generate target/allure-results -o allure-report --clean
