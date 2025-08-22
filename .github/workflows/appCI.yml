@@ -86,7 +86,7 @@ jobs:
       - name: Generate Allure Report
         run: |
           allure serve selenium-tests/allure-results
-          allure generate selenium-tests/allure-results -o /tmp/6412125270891040369/allure-report --clean
+          allure generate selenium-tests/allure-results -o selenium-tests/allure-report/ReportFiles --clean
 
       - name: open Allure Report
         run: |
