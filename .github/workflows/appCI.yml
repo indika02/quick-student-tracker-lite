@@ -74,7 +74,7 @@ jobs:
       #     github_token: ${{ secrets.GITHUB_TOKEN }}
       #     publish_dir: ./allure-report
       
-      - name: Send Test Report to email
+      - name: Send Test Report to emai
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
