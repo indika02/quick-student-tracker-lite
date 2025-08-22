@@ -101,7 +101,11 @@ jobs:
           mkdir finalreports
           mv ${{ env.REPORT_PATH }}.zip finalreports/
             
-
+      - name: Set report file name only
+        run: |
+          REPORT_NAME=$(basename ${{ env.REPORT_PATH }})
+          echo "REPORT_PATH_NAME=${REPORT_NAME}" >> $GITHUB_ENV
+      
       - name: Check Allure report tar
         run: ls -lh finalreports/    
 
@@ -109,7 +113,7 @@ jobs:
         uses: agusprayogi02/auto-upload-gdrive@v1.0.1
         with:
           credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
-          filename: finalreports/${{ env.REPORT_PATH }}.zip
+          filename: finalreports/${{ env.REPORT_PATH_NAME }}.zip
           folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
           encoded: false
           mimeType: application/zip
