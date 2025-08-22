@@ -99,6 +99,15 @@ jobs:
       - name: Check Allure report tar
         run: ls -lh selenium-tests/    
 
+      - name: Check if zip exists
+        id: zip-check
+        run: |
+          if [ -f "selenium-tests/${{ env.REPORT_PATH }}.zip" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Upload Allure Report to Google Drive
         uses: agusprayogi02/auto-upload-gdrive@v1.0.1
         with:
