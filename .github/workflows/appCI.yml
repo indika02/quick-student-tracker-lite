@@ -37,20 +37,40 @@ jobs:
           repository: indika02/studentautomation
           path: selenium-tests  
 
+      # Cache Maven dependencies
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      # Cache Allure binary
+      - name: Cache Allure binary
+        id: cache-allure
+        uses: actions/cache@v4
+        with:
+          path: /opt/allure
+          key: ${{ runner.os }}-allure-2.27.0
+
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: 24
 
+      # Only install Allure if not cached
       - name: Install Allure Commandline
+        if: steps.cache-allure.outputs.cache-hit != 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y default-jre
           wget https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz
           tar -zxvf allure-2.27.0.tgz
           sudo mv allure-2.27.0 /opt/allure
-          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
+          sudo ln -sf /opt/allure/bin/allure /usr/bin/allure
           allure --version
 
       - name: Build Selenium tests with Maven
@@ -66,33 +86,27 @@ jobs:
       - name: Generate Allure Report
         run: |
           allure serve selenium-tests/allure-results
-          allure generate selenium-tests/allure-results -o selenium-tests/allure-report/ReportFiles --clean
+          allure generate selenium-tests/allure-results -o /tmp/6412125270891040369/allure-report --clean
 
       - name: open Allure Report
         run: |
-          cd selenium-tests/allure-report/ReportFiles
+          cd tmp/6412125270891040369/allure-report
           allure open .
 
-      # - name: Deploy to GitHub Pages
-      #   uses: peaceiris/actions-gh-pages@v6
+      # - name: Send Test Report to email
+      #   uses: dawidd6/action-send-mail@v3
       #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     publish_dir: ./allure-report
-      
-      - name: Send Test Report to email
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          username: ${{ secrets.EMAIL }}
-          password: ${{ secrets.PASSWORD }}
-          subject: Final Test Report
-          to: indikasenarathna356@gmail.com
-          from: ${{ secrets.EMAIL }}
-          content_type: text/html
-          body: |
-            Selenium test report attached.
-          attachments: selenium-tests/target/reports/cucumber-html-reports/test.html
+      #     server_address: smtp.gmail.com
+      #     server_port: 465
+      #     username: ${{ secrets.EMAIL }}
+      #     password: ${{ secrets.PASSWORD }}
+      #     subject: Final Test Report
+      #     to: indikasenarathna356@gmail.com
+      #     from: ${{ secrets.EMAIL }}
+      #     content_type: text/html
+      #     body: |
+      #       Selenium test report attached.
+      #     attachments: selenium-tests/target/reports/cucumber-html-reports/test.html
 
   # Container:
   #     runs-on: ubuntu-latest
@@ -106,4 +120,3 @@ jobs:
 
   #       - name: Run Docker container
   #         run: docker run -p 8080:8080 sms:latest
-                    
