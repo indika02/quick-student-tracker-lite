@@ -96,11 +96,15 @@ jobs:
         run: |
           zip -r ${{ env.REPORT_PATH }}.zip ${{ env.REPORT_PATH }}
 
-      - name: Check Allure report tar
-        run: ls -lh selenium-tests/    
+      - name: Upload Report into another folder
+        uses: actions/upload-artifact@v4
+        run: |
+          mkdir finalreports
+          mv ${{ env.REPORT_PATH }}.zip finalreports/
+            
 
-      - name: Wait for 10 seconds
-        run: sleep 15
+      - name: Check Allure report tar
+        run: ls -lh finalreports/    
 
       - name: Upload Allure Report to Google Drive
         uses: agusprayogi02/auto-upload-gdrive@v1.0.1
