@@ -100,9 +100,9 @@ jobs:
       - name: Upload Allure Report to Google Drive
         uses: willo32/google-drive-upload-action@v1
         with:
-          service_account_credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
-          filename: ${{ env.REPORT_PATH }}.tar.gz
-          folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
+          credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
+          target: ${{ env.REPORT_PATH }}.tar.gz
+          parent_folder_id: ${{ secrets.GDRIVE_FOLDER_ID }}
     
 
       - name: Send Allure Report to Members
