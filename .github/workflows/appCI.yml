@@ -104,8 +104,8 @@ jobs:
           filename: ${{ env.REPORT_PATH }}.tar.gz
           folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
           encoded: false
-          mimeType: application/vnd.android.package-archive
-
+          mimeType: application/gzip
+          
       - name: Send Allure Report to Members
         uses: dawidd6/action-send-mail@v3
         with:
