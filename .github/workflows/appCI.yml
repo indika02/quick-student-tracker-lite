@@ -41,12 +41,18 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 24
+
       - name: Install Allure Commandline
         run: |
-          sudo apt-add-repository ppa:qameta/allure
           sudo apt-get update
-          sudo apt-get install allure -y
+          sudo apt-get install -y default-jre
+          wget https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz
+          tar -zxvf allure-2.27.0.tgz
+          sudo mv allure-2.27.0 /opt/allure
+          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
+          allure --version
+          
       - name: Build Selenium tests with Maven
         run: |
           cd selenium-tests
