@@ -97,7 +97,6 @@ jobs:
           zip -r ${{ env.REPORT_PATH }}.zip ${{ env.REPORT_PATH }}
 
       - name: Upload Report into another folder
-        uses: actions/upload-artifact@v4
         run: |
           mkdir finalreports
           mv ${{ env.REPORT_PATH }}.zip finalreports/
