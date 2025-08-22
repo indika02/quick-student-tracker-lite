@@ -87,9 +87,8 @@ jobs:
 
       - name: Rename Allure Report Folder
         run: |
-          MODULE="${{ github.event.repository.name }}"
           DATE=$(date +%Y-%m-%d)
-          NEW_NAME="allure-report-${MODULE}-${DATE}"
+          NEW_NAME="allure-report-${DATE}"
           mv selenium-tests/allure-report selenium-tests/${NEW_NAME}
           echo "REPORT_PATH=selenium-tests/${NEW_NAME}" >> $GITHUB_ENV
 
@@ -105,7 +104,7 @@ jobs:
         with:
           credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
           filename: ${{ env.REPORT_PATH }}.zip
-            echo "filename"
+          
           folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
           encoded: false
           mimeType: application/zip
