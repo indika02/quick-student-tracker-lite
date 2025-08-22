@@ -113,7 +113,7 @@ jobs:
         uses: agusprayogi02/auto-upload-gdrive@v1.0.1
         with:
           credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
-          filename: finalreports/${{ env.REPORT_PATH_NAME }}.zip
+          filename: ${{ env.REPORT_PATH_NAME }}.zip
           folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
           encoded: false
           mimeType: application/zip
