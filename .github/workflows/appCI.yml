@@ -105,6 +105,7 @@ jobs:
         with:
           credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
           filename: ${{ env.REPORT_PATH }}.zip
+            echo "filename"
           folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
           encoded: false
           mimeType: application/zip
