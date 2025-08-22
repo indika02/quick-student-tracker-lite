@@ -88,9 +88,8 @@ jobs:
       - name: Rename Allure Report Folder
         run: |
           MODULE="${{ github.event.repository.name }}"
-          VERSION="1.0.0"
           DATE=$(date +%Y-%m-%d)
-          NEW_NAME="allure-report-${MODULE}-v${VERSION}-${DATE}"
+          NEW_NAME="allure-report-${MODULE}-${DATE}"
           mv selenium-tests/allure-report selenium-tests/${NEW_NAME}
           echo "REPORT_PATH=selenium-tests/${NEW_NAME}" >> $GITHUB_ENV
 
@@ -103,20 +102,20 @@ jobs:
         with:
           server_address: smtp.gmail.com
           server_port: 465
-          username: indikai002i@gmail.com
-          password: nlda xhfb dvjl gvts
+          username: ${{secrets.EMAIL}}
+          password: ${{secrets.PASSWORD}}
           subject: Allure Test Report
           to: indikasenarathna356@gmail.com
-          from: indikai002i@gmail.com
+          from: ${{secrets.EMAIL}}
           body: |
             Hi,
             Allure test report for ${{ env.REPORT_PATH }} is attached.
-              1. First, Make sure you have Allure commandline installed on your local machine. You can download it from https://docs.qameta.io/allure/#_installing_a_commandline
+              1. First, Make sure that already you have installed Allure Commandline on your local machine. If not You can download it from https://allurereport.org/docs/install-for-windows/
               2. Rename the attached file to `allure-report.zip`.
-              2. Unzip the attached file to a desired location.
-              3. Type command `allure open /path/to/unzipped/folder` to open the report in your default web browser.
+              2. Then Unzip the attached file to a desired location.
+              3. Type command "allure open /path/to/unzipped/folder" to open the report in your default web browser.
             Thank you.
-          attachments: ${{ env.REPORT_PATH }}.zip
+          attachments: ${{ env.REPORT_PATH }}.allurezip
 
   # Container:
   #     runs-on: ubuntu-latest
