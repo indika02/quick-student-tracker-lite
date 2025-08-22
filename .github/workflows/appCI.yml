@@ -106,7 +106,7 @@ jobs:
           echo "REPORT_PATH_NAME=${REPORT_NAME}" >> $GITHUB_ENV
       
       - name: Check Allure report tar
-        run: ls -lh finalreports/    
+        run: ls -lh ./    
 
       - name: Upload Allure Report to Google Drive
         uses: agusprayogi02/auto-upload-gdrive@v1.0.1
