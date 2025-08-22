@@ -93,20 +93,32 @@ jobs:
           name: allure-report
           path: selenium-tests/allure-report
 
-      # - name: Send Test Report to email
-      #   uses: dawidd6/action-send-mail@v3
-      #   with:
-      #     server_address: smtp.gmail.com
-      #     server_port: 465
-      #     username: ${{ secrets.EMAIL }}
-      #     password: ${{ secrets.PASSWORD }}
-      #     subject: Final Test Report
-      #     to: indikasenarathna356@gmail.com
-      #     from: ${{ secrets.EMAIL }}
-      #     content_type: text/html
-      #     body: |
-      #       Selenium test report attached.
-      #     attachments: selenium-tests/target/reports/cucumber-html-reports/test.html
+      - name: Rename Allure Report Folder
+        run: |
+          MODULE="${{ github.event.repository.name }}"
+          DATE=$(date +%Y-%m-%d)
+          NEW_NAME="allure-report-${MODULE}-v${VERSION}-${DATE}"
+          mv selenium-tests/allure-report selenium-tests/${NEW_NAME}
+          echo "REPORT_PATH=selenium-tests/${NEW_NAME}" >> $GITHUB_ENV
+
+      - name: Send Allure Report to Members
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL }}
+          password: ${{ secrets.PASSWORD }}
+          subject: Allure Test Report
+          to: indikasenarathna356@gmail.com
+          from: ${{ secrets.EMAIL }}
+          content_type: text/html
+          body: |
+            Allure test report for ${{ env.REPORT_PATH }} is attached.
+          attachments: ${{ env.REPORT_PATH }}.zip
+
+      - name: Zip Allure Report
+        run: |
+          zip -r ${{ env.REPORT_PATH }}.zip ${{ env.REPORT_PATH }}
 
   # Container:
   #     runs-on: ubuntu-latest
