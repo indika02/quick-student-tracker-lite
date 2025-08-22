@@ -52,15 +52,25 @@ jobs:
           sudo mv allure-2.27.0 /opt/allure
           sudo ln -s /opt/allure/bin/allure /usr/bin/allure
           allure --version
-          
+
       - name: Build Selenium tests with Maven
         run: |
           cd selenium-tests
           mvn clean install   
 
-      - name: Generate Allure Report
-        run: allure generate target/allure-results -o allure-report --clean
+      - name: Run Selenium tests    
+        run: |
+          cd selenium-tests
+          mvn clean test
 
+      - name: Generate Allure Report
+        run: allure generate selenium-tests/allure-results -o selenium-tests/allure-report/ReportFiles --clean
+
+      - name: open Allure Report
+        run: |
+          cd selenium-tests/allure-report/ReportFiles
+          allure open .
+                
       # - name: Deploy to GitHub Pages
       #   uses: peaceiris/actions-gh-pages@v6
       #   with:
