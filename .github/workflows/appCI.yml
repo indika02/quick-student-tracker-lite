@@ -64,13 +64,15 @@ jobs:
           mvn clean test
 
       - name: Generate Allure Report
-        run: allure generate selenium-tests/allure-results -o selenium-tests/allure-report/ReportFiles --clean
+        run: |
+          allure serve selenium-tests/allure-results
+          allure generate selenium-tests/allure-results -o selenium-tests/allure-report/ReportFiles --clean
 
       - name: open Allure Report
         run: |
           cd selenium-tests/allure-report/ReportFiles
           allure open .
-                
+
       # - name: Deploy to GitHub Pages
       #   uses: peaceiris/actions-gh-pages@v6
       #   with:
