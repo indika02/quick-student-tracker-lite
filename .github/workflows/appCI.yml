@@ -95,7 +95,7 @@ jobs:
 
       - name: Zip Allure Report
         run: |
-          tar -czf ${{ env.REPORT_PATH }}.tar.gz ${{ env.REPORT_PATH }}
+          zip -r ${{ env.REPORT_PATH }}.tar.gz ${{ env.REPORT_PATH }}
 
       - name: Check Allure report tar
         run: ls -lh selenium-tests/    
@@ -107,7 +107,7 @@ jobs:
           filename: ${{ env.REPORT_PATH }}.tar.gz
           folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
           encoded: false
-          mimeType: application/gzip
+          mimeType: application/zip
 
       - name: Send Allure Report to Members
         uses: dawidd6/action-send-mail@v3
