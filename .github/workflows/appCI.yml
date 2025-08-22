@@ -95,7 +95,7 @@ jobs:
 
       - name: Zip Allure Report
         run: |
-          zip -r ${{ env.REPORT_PATH }}.tar.gz ${{ env.REPORT_PATH }}
+          zip -r ${{ env.REPORT_PATH }}.zip ${{ env.REPORT_PATH }}
 
       - name: Check Allure report tar
         run: ls -lh selenium-tests/    
