@@ -103,7 +103,7 @@ jobs:
         with:
           server_address: smtp.gmail.com
           server_port: 465
-          email: ${{ secrets.EMAIL }}
+          username: ${{ secrets.EMAIL }}
           password: ${{ secrets.PASSWORD }}
           subject: Allure Test Report
           to: indikasenarathna356@gmail.com
