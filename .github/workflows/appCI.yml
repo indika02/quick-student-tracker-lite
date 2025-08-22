@@ -96,7 +96,7 @@ jobs:
 
       - name: Zip Allure Report
         run: |
-          zip -r ${{ env.REPORT_PATH }}.zip ${{ env.REPORT_PATH }}
+          zip -r ${{ env.REPORT_PATH }}.allurezip ${{ env.REPORT_PATH }}
 
       - name: Send Allure Report to Members
         uses: dawidd6/action-send-mail@v3
@@ -112,6 +112,7 @@ jobs:
             Hi,
             Allure test report for ${{ env.REPORT_PATH }} is attached.
               1. First, Make sure you have Allure commandline installed on your local machine. You can download it from https://docs.qameta.io/allure/#_installing_a_commandline
+              2. Rename the attached file to `allure-report.zip`.
               2. Unzip the attached file to a desired location.
               3. Type command `allure open /path/to/unzipped/folder` to open the report in your default web browser.
             Thank you.
