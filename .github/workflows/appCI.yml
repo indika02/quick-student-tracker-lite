@@ -108,9 +108,9 @@ jobs:
           else
             echo "exists=false" >> $GITHUB_OUTPUT
           fi
+          echo "Zip exists? ${{ steps.zip-check.outputs.exists }}"  
 
       - name: Upload Allure Report to Google Drive
-        run: echo "Zip exists? ${{ steps.zip-check.outputs.exists }}"
         if: ${{ always() && steps.zip-check.outputs.exists == 'true' }}
         uses: agusprayogi02/auto-upload-gdrive@v1.0.1
         with:
