@@ -95,7 +95,7 @@ jobs:
         run: |
           DATE=$(date +%Y-%m-%d)
           NEW_NAME="allure-report-${DATE}.zip"
-          mv selenium-tests/allure-report.zip selenium-tests/${NEW_NAME}.zip
+          mv selenium-tests/allure-report.zip selenium-tests/${NEW_NAME}
 
       - name: Check Allure report zip
         run: ls -lh selenium-tests/    
