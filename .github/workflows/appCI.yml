@@ -85,34 +85,26 @@ jobs:
           name: allure-report
           path: selenium-tests/allure-report
 
-      - name: Rename Allure Report Folder
-        run: |
-          DATE=$(date +%Y-%m-%d)
-          NEW_NAME="allure-report-${DATE}"
-          mv selenium-tests/allure-report selenium-tests/${NEW_NAME}
-          echo "REPORT_PATH=selenium-tests/${NEW_NAME}" >> $GITHUB_ENV
 
       - name: Zip Allure Report
         run: |
-          zip -r ${{ env.REPORT_PATH }}.zip ${{ env.REPORT_PATH }}
+          cd selenium-tests
+          zip -r ${{ env.REPORT_PATH }}.zip selenium-tests/allure-report
 
-      - name: Upload Report into another folder
+      - name: Rename Allure Report Folder
         run: |
-          mv ${{ env.REPORT_PATH }}.zip ./
-            
-      - name: Set report file name only
-        run: |
-          REPORT_NAME=$(basename ${{ env.REPORT_PATH }})
-          echo "REPORT_PATH_NAME=${REPORT_NAME}" >> $GITHUB_ENV
-      
-      - name: Check Allure report tar
-        run: ls -lh ./    
+          DATE=$(date +%Y-%m-%d)
+          NEW_NAME="allure-report-${DATE}.zip"
+          mv selenium-tests/allure-report.zip selenium-tests/${NEW_NAME}.zip
+
+      - name: Check Allure report zip
+        run: ls -lh selenium-tests/    
 
       - name: Upload Allure Report to Google Drive
         uses: agusprayogi02/auto-upload-gdrive@v1.0.1
         with:
           credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
-          filename: ${{ env.REPORT_PATH_NAME }}.zip
+          filename: selenium-tests/${NEW_NAME}.zip
           folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
           encoded: false
           mimeType: application/zip
