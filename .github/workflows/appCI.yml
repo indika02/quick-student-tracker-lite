@@ -150,3 +150,4 @@ jobs:
 
   #       - name: Run Docker container
   #         run: docker run -p 8080:8080 sms:latest
+  #       - name: Test Dockerized Application
