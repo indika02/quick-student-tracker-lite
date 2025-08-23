@@ -101,7 +101,7 @@ jobs:
         uses: agusprayogi02/auto-upload-gdrive@v1.0.1
         with:
           credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
-          filename:  ${{ github.workspace }}/${{env.ZIP_NAME}}
+          filename:  ./${{env.ZIP_NAME}}
           folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
           encoded: false
           mimeType: application/zip
