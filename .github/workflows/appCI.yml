@@ -86,16 +86,12 @@ jobs:
           path: selenium-tests/allure-report
 
 
-      - name: Zip Allure Report
-        run: |
-          cd selenium-tests
-          zip -r ${{ env.REPORT_PATH }}.zip selenium-tests/allure-report
-
-      - name: Rename Allure Report Folder
+      - name: Zip and Rename Allure Report
         run: |
           DATE=$(date +%Y-%m-%d)
-          NEW_NAME="allure-report-${DATE}.zip"
-          mv selenium-tests/allure-report.zip selenium-tests/${NEW_NAME}
+          cd selenium-tests
+          zip -r allure-report-${DATE}.zip allure-report
+          echo "ZIP_NAME=allure-report-${DATE}.zip" >> $GITHUB_ENV
 
       - name: Check Allure report zip
         run: ls -lh selenium-tests/    
