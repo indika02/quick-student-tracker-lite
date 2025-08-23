@@ -65,12 +65,12 @@ jobs:
           sudo ln -sf /opt/allure/bin/allure /usr/bin/allure
           allure --version
 
-      - name: Build Selenium tests with Maven
-        run: |
-          cd selenium-tests
-          mvn clean install   
+      # - name: Build Selenium tests with Maven
+      #   run: |
+      #     cd selenium-tests
+      #     mvn clean install   
 
-      - name: Run Selenium tests    
+      - name: Build and Run Selenium tests    
         run: |
           cd selenium-tests
           mvn clean test
@@ -86,25 +86,29 @@ jobs:
           path: selenium-tests/allure-report
 
 
-      - name: Zip and Rename Allure Report
+      - name: Zip Allure Report
         run: |
           cd selenium-tests
+          tar -czvf ${{ env.REPORT_PATH }} allure-report
+
+      - name: Rename Allure Report Folder
+        run: |
           DATE=$(date +%Y-%m-%d)
           NEW_NAME="allure-report-${DATE}.zip"
-          zip -r "../${NEW_NAME}" allure-report
+          mv selenium-tests/allure-report.zip ${NEW_NAME}
           echo "ZIP_NAME=${NEW_NAME}" >> $GITHUB_ENV
 
       - name: Check Allure report zip
-        run: ls -lh ./    
+        run: ls -lh selenium-tests/    
 
-      - name: Upload Allure Report to Google Drive
-        uses: agusprayogi02/auto-upload-gdrive@v1.0.1
+      - name: Copy Allure Report to Test Results server
+        uses: appleboy/scp-action@v0.1.7
         with:
-          credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
-          filename:  ./${{env.ZIP_NAME}}
-          folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
-          encoded: false
-          mimeType: application/zip
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "selenium-tests/${{ env.ZIP_NAME }}"
+          target: "/home/${{ secrets.EC2_USER }}/downloads/"
 
       - name: Send Allure Report to Members
         uses: dawidd6/action-send-mail@v3
