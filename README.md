@@ -101,5 +101,9 @@ docker run -p 3000:3000 <DOCKER_USERNAME>/sms:latest
 ├── package.json          # Node.js dependencies
 └── README.md             # Project documentation
 
+---
+```
+## 📊 CI/CD Workflow Diagram
 
-
+![CI/CD Workflow](./asserts/2.png)
+![Screenshots](./asserts/3.png)
