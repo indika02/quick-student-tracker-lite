@@ -1,73 +1,109 @@
-# Welcome to your Lovable project
+# 🚀 CI/CD Workflow for Student Management System Application
 
-## Project info
+This repository demonstrates a **GitHub Actions-based CI/CD pipeline** that automates:
 
-**URL**: https://lovable.dev/projects/eac7741a-8541-4d3b-a372-43726d046c7d
+1. **Build Web Application**  
+2. **Run Selenium Automation Tests**  
+3. **Generate and Deploy Allure Reports**  
+4. **Send Email Notifications**  
+5. **Containerize the App with Docker**
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 📌 Workflow Overview
 
-**Use Lovable**
+The workflow (`.github/workflows/ci.yml`) runs automatically on pushes to the **main** branch.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/eac7741a-8541-4d3b-a372-43726d046c7d) and start prompting.
+### 🔹 Job 1: Build Web Application
+- Checkout repository  
+- Setup **Node.js v20**  
+- Install dependencies & build the app  
 
-Changes made via Lovable will be committed automatically to this repo.
+### 🔹 Job 2: Execute Selenium Tests
+- Checkout Selenium tests repo (`studentautomation`)  
+- Setup **Java (Temurin 24)**  
+- Install **Allure CLI**  
+- Run Selenium tests with Maven  
+- Generate and upload Allure Report  
+- Deploy report to **Nginx on AWS EC2**  
+- Archive old reports for history  
+- Send email notification with report link  
 
-**Use your preferred IDE**
+### 🔹 Job 3: Containerize the Application
+- Login to Docker Hub  
+- Build and push Docker image  
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🛠️ Tools & Technologies
+- **GitHub Actions** – CI/CD automation  
+- **Node.js** – Web app build  
+- **Java + Maven** – Selenium test execution  
+- **Selenium** – Automation testing  
+- **Allure** – Test reporting  
+- **AWS EC2 + Nginx** – Report hosting  
+- **Docker** – Containerization  
+- **SMTP (Gmail)** – Email notifications  
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 🔑 Repository Secrets
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Before running the workflow, configure these secrets in your repository settings:
 
-# Step 3: Install the necessary dependencies.
-npm i
+| Secret Name       | Description |
+|-------------------|-------------|
+| `TEST_HOST`       | EC2 public IP or hostname |
+| `TEST_USER`       | SSH username |
+| `TEST_SSHKEY`     | SSH private key |
+| `EMAIL`           | Email address (SMTP) |
+| `PASSWORD`        | SMTP app password |
+| `DOCKER_USERNAME` | Docker Hub username |
+| `DOCKER_PASSWORD` | Docker Hub password or token |
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+---
 
-**Edit a file directly in GitHub**
+## 📊 Report Access
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Allure Test Report will be hosted at:  
+👉 `http://<EC2-PUBLIC-IP>/`  
 
-**Use GitHub Codespaces**
+Example:  
+`http://18.143.190.252/`
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
+## 📬 Email Notification
 
-This project is built with:
+Each pipeline run sends an email with:
+- **Allure Report link**  
+- **Build name (ZIP)**  
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+---
 
-## How can I deploy this project?
+## 📦 Docker Image
 
-Simply open [Lovable](https://lovable.dev/projects/eac7741a-8541-4d3b-a372-43726d046c7d) and click on Share -> Publish.
+The final application image is published to Docker Hub:  
 
-## Can I connect a custom domain to my Lovable project?
+```bash
+docker pull <DOCKER_USERNAME>/sms:latest
+docker run -p 3000:3000 <DOCKER_USERNAME>/sms:latest
 
-Yes, you can!
+# Project Structure
+.
+├── .github/
+│   └── workflows/
+│       └── ci.yml      # CI/CD pipeline definition
+├── src/                # Application source code
+├── selenium-tests/     # Test automation repo (cloned in workflow)
+├── Dockerfile          # Docker build file
+├── package.json        # Node.js dependencies
+└── README.md           # Project documentation
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+---
+
+👉 After saving this as `README.md` in your repo root, push it to GitHub and your project will look professional.  
+
+⚡ Do you also want me to make a **pipeline diagram (PNG/SVG)** for this, so you can include it in the README with an image link?
+
