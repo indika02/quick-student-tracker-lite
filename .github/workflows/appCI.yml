@@ -100,11 +100,11 @@ jobs:
       - name: Copy Allure Report to Test Results server
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
+          host: ${{ secrets.TEST_HOST }}
+          username: ${{ secrets.TEST_USER }}
+          key: ${{ secrets.TEST_SSHKEY }}
           source: "selenium-tests/${{ env.ZIP_NAME }}"
-          target: "/home/${{ secrets.EC2_USER }}/downloads/"
+          target: "/home/${{ secrets.TEST_USER }}downloads/"
 
       - name: Send Allure Report to Members
         uses: dawidd6/action-send-mail@v3
