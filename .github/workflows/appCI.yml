@@ -104,7 +104,7 @@ jobs:
           username: ${{ secrets.TEST_USER }}
           key: ${{ secrets.TEST_SSHKEY }}
           source: "selenium-tests/${{ env.ZIP_NAME }}"
-          target: "/home/${{ secrets.TEST_USER }}downloads/"
+          target: "/home/ec2-user/downloads/"
 
       - name: Send Allure Report to Members
         uses: dawidd6/action-send-mail@v3
