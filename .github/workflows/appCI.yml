@@ -88,11 +88,11 @@ jobs:
 
       - name: Zip and Rename Allure Report
         run: |
-          DATE=$(date +%Y-%m-%d)
-          ZIP_NAME="allure-report-${DATE}.zip"
           cd selenium-tests
-          zip -r "../$ZIP_NAME" allure-report
-          echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_ENV
+          DATE=$(date +%Y-%m-%d)
+          NEW_NAME="allure-report-${DATE}.zip"
+          zip -r "../${NEW_NAME}" allure-report
+
 
       - name: Check Allure report zip
         run: ls -lh selenium-tests/    
@@ -101,7 +101,7 @@ jobs:
         uses: agusprayogi02/auto-upload-gdrive@v1.0.1
         with:
           credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
-          filename: ${{ env.ZIP_NAME }}
+          filename: allure-report-${{ steps.date.outputs.today }}.zip
           folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
           encoded: false
           mimeType: application/zip
