@@ -101,6 +101,7 @@ jobs:
         with:
           credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
           filename: selenium-tests/${{env.ZIP_NAME}}
+          name: ${{ env.ZIP_NAME }}
           folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
           encoded: false
           mimeType: application/zip
