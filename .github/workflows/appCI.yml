@@ -95,7 +95,7 @@ jobs:
           echo "ZIP_NAME=${NEW_NAME}" >> $GITHUB_ENV
 
       - name: Check Allure report zip
-        run: ls -lh selenium-tests/    
+        run: ls -lh ./    
 
       - name: Upload Allure Report to Google Drive
         uses: agusprayogi02/auto-upload-gdrive@v1.0.1
