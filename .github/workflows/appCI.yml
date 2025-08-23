@@ -125,8 +125,8 @@ jobs:
           key: ${{ secrets.TEST_SSHKEY }}    
           script: |
             cd /usr/share/nginx/html/
-            sudo mv allure-report "allure-report-$(date +'%Y-%m-%d')"
-            sudo mv allure-report-2025-08-23/ /home/ec2-user/resultbackups
+            base="allure-report-$(date +'%Y-%m-%d')"; target="$base"; count=1; while [ -e "$target" ]; do target="${base}-$count"; ((count++)); done; sudo mv allure-report "$target"; echo "Renamed to: $target"
+            sudo mv "$target" /home/ec2-user/resultbackups/
             cd /home/ec2-user/downloads/
             rm -rf allure-report
             unzip ${{ env.ZIP_NAME }}
