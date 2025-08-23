@@ -76,8 +76,7 @@ Example:
 ## 📬 Email Notification
 
 Each pipeline run sends an email with:
-- **Allure Report link**  
-- **Build name (ZIP)**  
+- **Allure Report link**   
 
 ---
 
@@ -85,25 +84,22 @@ Each pipeline run sends an email with:
 
 The final application image is published to Docker Hub:  
 
-```bash
 docker pull <DOCKER_USERNAME>/sms:latest
 docker run -p 3000:3000 <DOCKER_USERNAME>/sms:latest
 
-# Project Structure
-.
-├── .github/
-│   └── workflows/
-│       └── ci.yml      # CI/CD pipeline definition
-├── src/                # Application source code
-├── selenium-tests/     # Test automation repo (cloned in workflow)
-├── Dockerfile          # Docker build file
-├── package.json        # Node.js dependencies
-└── README.md           # Project documentation
-
-
 ---
 
-👉 After saving this as `README.md` in your repo root, push it to GitHub and your project will look professional.  
+## 📂 Project Structure
 
-⚡ Do you also want me to make a **pipeline diagram (PNG/SVG)** for this, so you can include it in the README with an image link?
+```plaintext
+├── .github/
+│   └── workflows/
+│       └── ci.yml        # CI/CD pipeline definition
+├── src/                  # Application source code
+├── selenium-tests/       # Test automation repo (cloned in workflow)
+├── Dockerfile            # Docker build file
+├── package.json          # Node.js dependencies
+└── README.md             # Project documentation
+
+
 
