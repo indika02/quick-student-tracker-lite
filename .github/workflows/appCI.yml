@@ -107,23 +107,35 @@ jobs:
           target: "/home/ec2-user/downloads/"
           strip_components: 1
 
-      - name: Send Allure Report to Members
+      - name: Extract and Replace Allure Report on server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.TEST_HOST }}
+          username: ${{ secrets.TEST_USER }}
+          key: ${{ secrets.TEST_SSHKEY }}    
+          script: |
+            cd /usr/share/nginx/html/
+            sudo mv allure-report "allure-report-$(date +'%Y-%m-%d')"
+            sudo mv allure-report-2025-08-23/ /home/ec2-user/resultbackups
+            cd /home/ec2-user/downloads/
+            rm -rf allure-report
+            unzip ${{ env.ZIP_NAME }}
+            sudo mv allure-report /usr/share/nginx/html/
+            sudo systemctl restart nginx
+
+      - name: Send Test Results Notification to team members
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
           server_port: 465
           username: ${{secrets.EMAIL}}
           password: ${{secrets.PASSWORD}}
-          subject: Allure Test Report
+          subject: Allure Test Results for ${{env.ZIP_NAME}}
           to: indikasenarathna356@gmail.com
           from: ${{secrets.EMAIL}}
           body: |
-            Hi,
-            Allure test report for ${{ env.REPORT_PATH }} is attached.
-              1. First, Make sure that already you have installed Allure Commandline on your local machine. If not You can download it from https://allurereport.org/docs/install-for-windows/
-              2. Download the attached file of this location: https://drive.google.com/drive/folders/1sEE5WBZoegnbGhRd6UCNg3E7pt5wtWX2?usp=sharing
-              3. Then Unzip the attached file to a desired location.
-              4. Type command "allure open /path/to/unzipped/folder" to open the report in your default web browser.
+            Hi All,
+            Check the latest Allure test report for the build ${{env.ZIP_NAME}} at http://18.143.190.252/
             Thank you.
          
   # Container:
