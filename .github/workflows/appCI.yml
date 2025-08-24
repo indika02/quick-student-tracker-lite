@@ -30,7 +30,7 @@ jobs:
           echo "PROJECT_ZIP=sms-${DATE}.zip" >> $GITHUB_ENV
 
       - name: Verify the zip file
-        run: ls -lh *.zip      
+        run: ls -lh   
 
       # - name: Remove the old project folders in downloads
       #   uses: appleboy/ssh-action@v1.0.0
