@@ -32,15 +32,15 @@ jobs:
       - name: Verify the zip file
         run: ls -lh *.zip      
 
-      - name: Remove the old project folders in downloads
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.WEB_HOST }}
-          username: ${{ secrets.WEB_USER }}
-          key: ${{ secrets.TEST_SSHKEY }}    
-          script: | 
-            cd /home/ec2-user/downloads/
-            rm -rf ${{ env.PROJECT_ZIP }}  
+      # - name: Remove the old project folders in downloads
+      #   uses: appleboy/ssh-action@v1.0.0
+      #   with:
+      #     host: ${{ secrets.WEB_HOST }}
+      #     username: ${{ secrets.WEB_USER }}
+      #     key: ${{ secrets.TEST_SSHKEY }}    
+      #     script: | 
+      #       cd /home/ec2-user/downloads/
+      #       rm -rf ${{ env.PROJECT_ZIP }}  
 
       - name: Upload the project zip into server  
         uses: appleboy/scp-action@v0.1.7
@@ -51,7 +51,7 @@ jobs:
           source: "${{ env.PROJECT_ZIP }}"
           target: "/home/ec2-user/downloads/"
           strip_components: 1
-          
+
   Execute-Selenium-Tests:
     runs-on: ubuntu-latest
     needs: Build-web-App
