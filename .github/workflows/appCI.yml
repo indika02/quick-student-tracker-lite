@@ -21,7 +21,16 @@ jobs:
         run: npm install
 
       - name: build app
-        run: npm run build    
+        run: npm run build
+
+      - name: Zip project folder
+        run: |
+          DATE=$(date +%Y-%m-%d)
+          zip -r project-${DATE}.zip . -x "node_modules/*"
+          echo "PROJECT_ZIP=project-${DATE}.zip" >> $GITHUB_ENV
+
+      - name: Verify the zip file
+        run: ls -lh *.zip      
 
   Execute-Selenium-Tests:
     runs-on: ubuntu-latest
