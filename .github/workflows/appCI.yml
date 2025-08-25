@@ -50,10 +50,34 @@ jobs:
           sudo mv "$target" /home/ec2-user/appbackups/
 
           echo "Renamed and moved to backup: $target"
- 
-  Execute-Selenium-Tests:
+
+          cd /usr/share/nginx/
+          sudo rm -rf html/*
+
+  Deploy-the-new-app:
     runs-on: ubuntu-latest
     needs: Backup-the-exisiting-app
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Copy files to the server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.WEB_HOST }}
+          username: ${{ secrets.WEB_USER }}
+          key: ${{ secrets.TEST_SSHKEY }}
+          source: "build/"
+          target: "/home/ec2-user/downloads/"
+          strip_components: 1 
+          script: |
+            cd /home/ec2-user/downloads/
+            sudo cp -r /home/ec2-user/downloads/build/* /usr/share/nginx/html/
+            sudo systemctl restart nginx  
+
+  Execute-Selenium-Tests:
+    runs-on: ubuntu-latest
+    needs: Deploy-the-new-app
     
     steps:
       - name: Checkout Repository
@@ -145,6 +169,11 @@ jobs:
             sudo mv allure-report /usr/share/nginx/html/
             sudo systemctl restart nginx
 
+
+  Send-the-Test-results-to-the-team:
+    runs-on: ubuntu-latest
+    needs: Execute-Selenium-Tests
+    steps:
       - name: Send Test Results Notification to team members
         uses: dawidd6/action-send-mail@v3
         with:
@@ -157,7 +186,7 @@ jobs:
           from: ${{secrets.EMAIL}}
           body: |
             Hi All,
-            Check the latest Allure test report for the build ${{env.ZIP_NAME}} at http://18.143.190.252/
+            Check the latest Allure test report for the build ${{env.ZIP_NAME}} at http://47.130.145.222/
             Thank you.
          
   Containerized-the-Application:
