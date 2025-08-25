@@ -67,7 +67,7 @@ jobs:
 
       - name: build app
         run: npm run build
-        
+
       - name: Verify build folder
         run: ls -l
 
@@ -77,9 +77,9 @@ jobs:
           host: ${{ secrets.WEB_HOST }}
           username: ${{ secrets.WEB_USER }}
           key: ${{ secrets.TEST_SSHKEY }}
-          source: build/
+          source: build/dist/*
           target: "/home/ec2-user/downloads/"
-          strip_components: 1 
+          strip_components: 0 
           
       - name: Deploy build on server
         uses: appleboy/ssh-action@v1.0.0
