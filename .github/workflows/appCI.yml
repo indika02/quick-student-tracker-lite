@@ -105,6 +105,7 @@ jobs:
           username: ${{ secrets.WEB_USER }}
           key: ${{ secrets.TEST_SSHKEY }}
           script: |
+            cd /home/ec2-user/downloads/
             tar -xzf /home/ec2-user/downloads/dist.tar.gz
             sudo cp -r /home/ec2-user/downloads/dist* /usr/share/nginx/html/
             sudo systemctl restart nginx
