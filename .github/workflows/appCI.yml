@@ -62,7 +62,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Copy files to the server
-        uses: appleboy/scp-action@v1.0.0
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.WEB_HOST }}
           username: ${{ secrets.WEB_USER }}
@@ -70,11 +70,17 @@ jobs:
           source: "build/"
           target: "/home/ec2-user/downloads/"
           strip_components: 1 
+          
+      - name: Deploy build on server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.WEB_HOST }}
+          username: ${{ secrets.WEB_USER }}
+          key: ${{ secrets.TEST_SSHKEY }}
           script: |
-            cd /home/ec2-user/downloads/
-            sudo cp -r /home/ec2-user/downloads/build/* /usr/share/nginx/html/
-            sudo systemctl restart nginx  
-
+            sudo cp -rf /home/ec2-user/downloads/* /usr/share/nginx/html/
+            sudo systemctl restart nginx
+            
   Execute-Selenium-Tests:
     runs-on: ubuntu-latest
     needs: Deploy-the-new-app
