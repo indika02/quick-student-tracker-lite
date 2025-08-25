@@ -28,17 +28,29 @@ jobs:
     needs: Build-web-App
 
     steps:
-      - name: login to server
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.WEB_HOST }}
-          username: ${{ secrets.WEB_USER }}
-          key: ${{ secrets.TEST_SSHKEY }}    
-          script: | 
-            cd /home/ec2-user/apps/
-            base="sms-$(date +'%Y-%m-%d')"; target="$base"; count=1; while [ -e "$target" ]; do target="${base}-$count"; ((count++)); done; sudo mv sms "$target"; echo "Renamed to: $target"
-            sudo mv "$target" /home/ec2-user/backups/  
+    - name: login to server
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.WEB_HOST }}
+        username: ${{ secrets.WEB_USER }}
+        key: ${{ secrets.TEST_SSHKEY }}
+        script: |
+          cd /home/ec2-user/apps/
+          base="sms-$(date +'%Y-%m-%d')"
+          target="$base"
+          count=1
 
+          while [ -e "/home/ec2-user/appbackups/$target" ]; do
+            target="${base}-$count"
+            ((count++))
+          done
+
+          sudo mv sms "$target"
+
+          sudo mv "$target" /home/ec2-user/appbackups/
+
+          echo "Renamed and moved to backup: $target"
+ 
   Execute-Selenium-Tests:
     runs-on: ubuntu-latest
     needs: Backup-the-exisiting-app
