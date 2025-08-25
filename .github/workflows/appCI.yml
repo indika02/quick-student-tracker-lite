@@ -73,7 +73,6 @@ jobs:
 
       - name: Archive dist folder
         run: |
-          cd build
           tar -czf dist.tar.gz dist
           ls -lh dist.tar.gz  
 
