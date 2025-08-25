@@ -82,7 +82,7 @@ jobs:
           host: ${{ secrets.WEB_HOST }}
           username: ${{ secrets.WEB_USER }}
           key: ${{ secrets.TEST_SSHKEY }}
-          source: build/dist/
+          source: dist.tar.gz
           target: "/home/ec2-user/downloads/"
           strip_components: 0 
           
