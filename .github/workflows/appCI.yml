@@ -71,6 +71,12 @@ jobs:
       - name: Verify build folder
         run: ls -l
 
+      - name: Archive dist folder
+        run: |
+          cd build
+          tar -czf dist.tar.gz dist
+          ls -lh dist.tar.gz  
+
       - name: Copy files to the server
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -88,7 +94,8 @@ jobs:
           username: ${{ secrets.WEB_USER }}
           key: ${{ secrets.TEST_SSHKEY }}
           script: |
-            sudo cp -rf /home/ec2-user/downloads/* /usr/share/nginx/html/
+            sudo tar -xzf /home/ec2-user/downloads/dist.tar.gz
+            sudo cp -r /home/ec2-user/downloads/dist* /usr/share/nginx/html/
             sudo systemctl restart nginx
 
   Execute-Selenium-Tests:
