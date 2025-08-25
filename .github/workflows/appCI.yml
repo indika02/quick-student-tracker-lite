@@ -85,7 +85,7 @@ jobs:
           key: ${{ secrets.TEST_SSHKEY }}    
           script: | 
             cd /home/ec2-user/downloads/
-            rm -rf dist*    
+            sudo rm -rf dist*    
 
       - name: Copy files to the server
         uses: appleboy/scp-action@v0.1.7
