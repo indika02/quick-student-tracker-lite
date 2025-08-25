@@ -77,6 +77,16 @@ jobs:
           tar -czf dist.tar.gz dist
           ls -lh dist.tar.gz  
 
+      - name: Remove the old dist files in downloads
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.WEB_HOST }}
+          username: ${{ secrets.WEB_USER }}
+          key: ${{ secrets.TEST_SSHKEY }}    
+          script: | 
+            cd /home/ec2-user/downloads/
+            rm -rf dist*    
+
       - name: Copy files to the server
         uses: appleboy/scp-action@v0.1.7
         with:
