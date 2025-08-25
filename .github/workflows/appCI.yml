@@ -23,6 +23,22 @@ jobs:
       - name: build app
         run: npm run build
 
+  Backup-the-exisiting-app:
+    runs-on: ubuntu-latest
+    needs: Build-web-App
+
+    steps:
+      - name: login to server
+        uses: appleboy/ssh-action@
+        with:
+          host: ${{ secrets.WEB_HOST }}
+          username: ${{ secrets.WEB_USER }}
+          key: ${{ secrets.TEST_SSHKEY }}    
+          script: | 
+            cd /usr/share/nginx/html/
+            base="sms-$(date +'%Y-%m-%d')"; target="$base"; count=1; while [ -e "$target" ]; do target="${base}-$count"; ((count++)); done; sudo mv sms "$target"; echo "Renamed to: $target"
+            sudo mv "$target" /home/ec2-user/backups/  
+
   Execute-Selenium-Tests:
     runs-on: ubuntu-latest
     needs: Build-web-App
