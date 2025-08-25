@@ -35,7 +35,7 @@ jobs:
         username: ${{ secrets.WEB_USER }}
         key: ${{ secrets.TEST_SSHKEY }}
         script: |
-          cd /home/ec2-user/apps/
+          cd /usr/share/nginx/
           base="sms-$(date +'%Y-%m-%d')"
           target="$base"
           count=1
@@ -45,6 +45,7 @@ jobs:
             ((count++))
           done
 
+          sudo cp -r html sms
           sudo mv sms "$target"
 
           sudo mv "$target" /home/ec2-user/appbackups/
@@ -59,16 +60,22 @@ jobs:
     needs: Backup-the-exisiting-app
 
     steps:
-      - name: Archive whole project
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Install dependencies
+        run: npm install
+
+      - name: build app
+        run: npm run build
+
+      - name: Verify build folder
+        run: ls -l
+
+      - name: Archive dist folder
         run: |
-          PROJECT_NAME="sms-$(date +'%Y-%m-%d-%H%M%S')"
-          if [ -d "." ]; then
-            tar -czf ${PROJECT_NAME}.tar.gz .
-            ls -lh ${PROJECT_NAME}.tar.gz
-          else
-            echo "Error: project folder does not exist!"
-            exit 1
-          fi
+          tar -czf dist.tar.gz dist
+          ls -lh dist.tar.gz  
 
       - name: Copy files to the server
         uses: appleboy/scp-action@v0.1.7
@@ -76,7 +83,7 @@ jobs:
           host: ${{ secrets.WEB_HOST }}
           username: ${{ secrets.WEB_USER }}
           key: ${{ secrets.TEST_SSHKEY }}
-          source: "${PROJECT_NAME}.tar.gz"
+          source: dist.tar.gz
           target: "/home/ec2-user/downloads/"
           strip_components: 0 
           
@@ -87,11 +94,8 @@ jobs:
           username: ${{ secrets.WEB_USER }}
           key: ${{ secrets.TEST_SSHKEY }}
           script: |
-            sudo tar -xzf /home/ec2-user/downloads/${PROJECT_NAME}.tar.gz
-            sudo cp /home/ec2-user/downloads/${PROJECT_NAME} /home/ec2-user/apps/
-            npm install
-            npm run build
-            sudo cp -r /home/ec2-user/apps/dist* /usr/share/nginx/html/
+            sudo tar -xzf /home/ec2-user/downloads/dist.tar.gz
+            sudo cp -r /home/ec2-user/downloads/dist* /usr/share/nginx/html/
             sudo systemctl restart nginx
 
   Execute-Selenium-Tests:
