@@ -61,10 +61,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+      
       - name: Verify build folder
-        run: ls -l build/  
-        
+        run: ls -l
+
       - name: Copy files to the server
         uses: appleboy/scp-action@v0.1.7
         with:
