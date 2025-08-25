@@ -35,13 +35,13 @@ jobs:
           username: ${{ secrets.WEB_USER }}
           key: ${{ secrets.TEST_SSHKEY }}    
           script: | 
-            cd /usr/share/nginx/html/
+            cd /home/ec2-user/apps/
             base="sms-$(date +'%Y-%m-%d')"; target="$base"; count=1; while [ -e "$target" ]; do target="${base}-$count"; ((count++)); done; sudo mv sms "$target"; echo "Renamed to: $target"
             sudo mv "$target" /home/ec2-user/backups/  
 
   Execute-Selenium-Tests:
     runs-on: ubuntu-latest
-    needs: Build-web-App
+    needs: Backup-the-exisiting-app
     
     steps:
       - name: Checkout Repository
