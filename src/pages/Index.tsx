@@ -6,7 +6,12 @@ import { Navigate } from "react-router-dom";
 const Index = () => {
   const { isAuthenticated } = useAuth();
 
+  const { currentUser } = useAuth();
+
   if (isAuthenticated) {
+    if (currentUser?.role === 'student') {
+      return <Navigate to="/student-dashboard" />;
+    }
     return <Navigate to="/dashboard" />;
   }
 

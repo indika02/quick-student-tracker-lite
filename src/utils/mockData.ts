@@ -62,7 +62,7 @@ export interface User {
   username: string;
   password: string;
   fullName: string;
-  role: 'admin' | 'teacher';
+  role: 'admin' | 'teacher' | 'student';
 }
 
 export const mockUsers: User[] = [
@@ -79,6 +79,72 @@ export const mockUsers: User[] = [
     password: "password",
     fullName: "Teacher User",
     role: "teacher"
+  },
+  {
+    id: "3",
+    username: "student",
+    password: "student123",
+    fullName: "Student User",
+    role: "student"
+  }
+];
+
+// Timetable interface and mock data
+export interface TimetableEntry {
+  id: string;
+  subject: string;
+  instructor: string;
+  time: string;
+  day: string;
+  location: string;
+  duration: string;
+}
+
+export const mockTimetable: TimetableEntry[] = [
+  {
+    id: "1",
+    subject: "Mathematics",
+    instructor: "Dr. Smith",
+    time: "09:00 AM",
+    day: "Monday",
+    location: "Room 101",
+    duration: "1 hour"
+  },
+  {
+    id: "2",
+    subject: "Physics",
+    instructor: "Dr. Johnson",
+    time: "11:00 AM",
+    day: "Monday",
+    location: "Lab 201",
+    duration: "2 hours"
+  },
+  {
+    id: "3",
+    subject: "Chemistry",
+    instructor: "Dr. Wilson",
+    time: "02:00 PM",
+    day: "Tuesday",
+    location: "Lab 301",
+    duration: "1.5 hours"
+  },
+  {
+    id: "4",
+    subject: "English Literature",
+    instructor: "Ms. Brown",
+    time: "10:00 AM",
+    day: "Wednesday",
+    location: "Room 205",
+    duration: "1 hour"
+  },
+  {
+    id: "5",
+    subject: "Computer Science",
+    instructor: "Mr. Davis",
+    time: "01:00 PM",
+    day: "Thursday",
+    location: "Computer Lab",
+    duration: "2 hours"
   }
 ];
 

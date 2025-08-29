@@ -21,9 +21,7 @@ const LoginForm = () => {
     setTimeout(() => {
       const success = login(username, password);
       setIsLoading(false);
-      if (success) {
-        navigate("/dashboard");
-      }
+      // Navigation is handled by the Index component based on user role
     }, 800); // Simulate network delay
   };
 
@@ -68,8 +66,13 @@ const LoginForm = () => {
           </Button>
         </form>
       </CardContent>
-      <CardFooter className="flex justify-center text-sm text-muted-foreground">
-        <p>Use "admin" / "password" to login as admin</p>
+      <CardFooter className="flex flex-col space-y-2 text-xs text-muted-foreground">
+        <div className="text-center">
+          <p><strong>Demo Accounts:</strong></p>
+          <p>Admin: admin / password</p>
+          <p>Teacher: teacher / password</p>
+          <p>Student: student / student123</p>
+        </div>
       </CardFooter>
     </Card>
   );
