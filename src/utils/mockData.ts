@@ -89,7 +89,7 @@ export const mockUsers: User[] = [
   }
 ];
 
-// Timetable interface and mock data
+// Timetable interface and mock data for student dashboard
 export interface TimetableEntry {
   id: string;
   subject: string;
