@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -87,9 +87,11 @@ const LoginForm = () => {
                   Remember me
                 </Label>
               </div>
-              <Button variant="link" className="px-0 text-primary text-sm">
-                Forgot password?
-              </Button>
+              <Link to="/forgot-password">
+                <Button variant="link" className="px-0 text-primary text-sm">
+                  Forgot password?
+                </Button>
+              </Link>
             </div>
 
             <Button

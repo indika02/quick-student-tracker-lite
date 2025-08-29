@@ -13,6 +13,7 @@ import StudentForm from "./pages/StudentForm";
 import Facilities from "./pages/Facilities";
 import FacilityForm from "./pages/FacilityForm";
 import StudentDashboard from "./pages/StudentDashboard";
+import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from "./pages/NotFound";
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/student-dashboard" element={<StudentDashboard />} />
               <Route path="/students" element={<Students />} />
