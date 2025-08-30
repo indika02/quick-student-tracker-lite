@@ -56,6 +56,7 @@ const LoginForm = () => {
               <Label htmlFor="username" className="text-sm font-medium">Username</Label>
               <Input
                 id="username"
+                data-testid="login-username-input"
                 placeholder="Enter your username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -67,6 +68,7 @@ const LoginForm = () => {
               <Label htmlFor="password" className="text-sm font-medium">Password</Label>
               <Input
                 id="password"
+                data-testid="login-password-input"
                 type="password"
                 placeholder="Enter your password"
                 value={password}
@@ -80,6 +82,7 @@ const LoginForm = () => {
               <div className="flex items-center space-x-2">
                 <Checkbox
                   id="remember"
+                  data-testid="login-remember-checkbox"
                   checked={rememberMe}
                   onCheckedChange={(checked) => setRememberMe(checked as boolean)}
                 />
@@ -88,7 +91,11 @@ const LoginForm = () => {
                 </Label>
               </div>
               <Link to="/forgot-password">
-                <Button variant="link" className="px-0 text-primary text-sm">
+                <Button 
+                  variant="link" 
+                  className="px-0 text-primary text-sm"
+                  data-testid="forgot-password-link"
+                >
                   Forgot password?
                 </Button>
               </Link>
@@ -96,6 +103,7 @@ const LoginForm = () => {
 
             <Button
               type="submit"
+              data-testid="login-submit-button"
               className="w-full h-11 bg-gradient-to-r from-primary to-primary-glow hover:opacity-90 transition-opacity shadow-lg"
               disabled={isLoading}
             >

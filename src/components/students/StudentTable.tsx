@@ -86,9 +86,10 @@ const StudentTable = ({ students, onDelete, isLoading = false }: StudentTablePro
             className="pl-8"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            data-testid="students-search-input"
           />
         </div>
-        <Button asChild>
+        <Button asChild data-testid="add-student-button">
           <Link to="/students/new">
             <UserPlus className="mr-2 h-4 w-4" />
             Add Student
@@ -145,15 +146,15 @@ const StudentTable = ({ students, onDelete, isLoading = false }: StudentTablePro
           </TableHeader>
           <TableBody>
             {sortedAndFilteredStudents.length > 0 ? (
-              sortedAndFilteredStudents.map((student) => (
-                <TableRow key={student.id}>
+              sortedAndFilteredStudents.map((student, index) => (
+                <TableRow key={student.id} data-testid={`student-row-${index}`}>
                   <TableCell>{student.firstName}</TableCell>
                   <TableCell>{student.lastName}</TableCell>
                   <TableCell className="hidden md:table-cell">{student.email}</TableCell>
                   <TableCell className="text-center">{student.grade}</TableCell>
                   <TableCell className="text-center hidden sm:table-cell">{student.age}</TableCell>
                   <TableCell className="text-right space-x-1">
-                    <Button variant="ghost" size="icon" asChild>
+                    <Button variant="ghost" size="icon" asChild data-testid={`edit-student-${student.id}`}>
                       <Link to={`/students/edit/${student.id}`}>
                         <Edit className="h-4 w-4" />
                       </Link>
@@ -163,6 +164,7 @@ const StudentTable = ({ students, onDelete, isLoading = false }: StudentTablePro
                       size="icon"
                       className="text-red-500 hover:text-red-700"
                       onClick={() => onDelete(student.id)}
+                      data-testid={`delete-student-${student.id}`}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
