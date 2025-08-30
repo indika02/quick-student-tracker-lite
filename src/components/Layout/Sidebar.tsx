@@ -1,7 +1,7 @@
 
 import { cn } from "@/lib/utils";
 import { NavLink } from "react-router-dom";
-import { Home, User, UserPlus, Settings } from "lucide-react";
+import { Home, User, UserPlus, Settings, Calendar, BookOpen } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 interface SidebarProps {
@@ -16,6 +16,8 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
     { label: "Dashboard", path: "/dashboard", icon: <Home className="h-5 w-5" /> },
     { label: "Students", path: "/students", icon: <User className="h-5 w-5" /> },
     { label: "Add Student", path: "/students/new", icon: <UserPlus className="h-5 w-5" /> },
+    { label: "Courses", path: "/courses", icon: <BookOpen className="h-5 w-5" /> },
+    { label: "Attendance", path: "/attendance", icon: <Calendar className="h-5 w-5" /> },
   ];
 
   // Admin-only menu items

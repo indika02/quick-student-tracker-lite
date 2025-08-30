@@ -15,6 +15,8 @@ import FacilityForm from "./pages/FacilityForm";
 import StudentDashboard from "./pages/StudentDashboard";
 import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from "./pages/NotFound";
+import Attendance from "./pages/Attendance";
+import Courses from "./pages/Courses";
 
 const App = () => {
   // Create a new QueryClient instance inside the component
@@ -38,6 +40,8 @@ const App = () => {
               <Route path="/facilities" element={<Facilities />} />
               <Route path="/facilities/new" element={<FacilityForm />} />
               <Route path="/facilities/edit/:id" element={<FacilityForm />} />
+              <Route path="/attendance" element={<Attendance />} />
+              <Route path="/courses" element={<Courses />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
